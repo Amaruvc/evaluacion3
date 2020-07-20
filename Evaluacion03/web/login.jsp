@@ -48,6 +48,7 @@
 
                             </div>
                             <button class="button is-block is-info is-large is-fullwidth">Ingresar <i class="fa fa-sign-in" aria-hidden="true"></i></button>
+                            <button class="button is-block is-info is-large is-fullwidth">Cancelar</button>
                         </form>
                     </div>
                     
