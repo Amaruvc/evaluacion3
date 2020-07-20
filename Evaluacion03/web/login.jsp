@@ -4,6 +4,7 @@
     Author     : amaru
 --%>
 
+<%@page import="modelos.Usuario"%>
 <%@page contentType="text/html" pageEncoding="windows-1252"%>
 <!DOCTYPE html>
 <head>
@@ -20,6 +21,13 @@
     <link rel="stylesheet" type="text/css" href="../css/login.css">
 </head>
 
+<%
+    Usuario usuario = (Usuario)session.getAttribute("usuario");
+    if (usuario != null) {
+        response.sendRedirect("intranet.jsp");
+    }
+%>
+
 <body>
     <section class="hero is-info is-fullheight">
         <div class="hero-body">
@@ -32,23 +40,30 @@
                         <span class="icon is-large">
                            <i class="ion-ionic" name="person-outline"></i>
                         </span>
-                        <form>
+                        <form action="ControladorUsuario" method="post">
                             <div class="field">
                                 <div class="control">
-                                    <input class="input is-large" type="text" placeholder="Usuario" autofocus="">
+                                    <input name="run" required class="input is-large" type="text" placeholder="Run" autofocus="">
                                 </div>
                             </div>
 
                             <div class="field">
                                 <div class="control">
-                                    <input class="input is-large" type="password" placeholder="Contraseña">
+                                    <input name="password" required class="input is-large" type="password" placeholder="Contraseña">
                                 </div>
                             </div>
                             <div class="field">
-
+                                <% if(request.getParameter("msj")!= null){%>
+                                    <div class="notification is-warning is-light">
+                                      <button class="delete"></button>
+                                      <%= request.getParameter("msj") %>
+                                    </div>
+                                <%}%> 
                             </div>
                             <button class="button is-block is-info is-large is-fullwidth">Ingresar <i class="fa fa-sign-in" aria-hidden="true"></i></button>
-                            <button class="button is-block is-info is-large is-fullwidth">Cancelar</button>
+                            <a href="index.jsp" class="button is-block is-large is-fullwidth">Cancelar</a>
+                            
+                            <input type="hidden" name="accion" value="1" />
                         </form>
                     </div>
                     
