@@ -1,3 +1,6 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="modelos.Producto"%>
+<%@page import="dao.ProductoDAO"%>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -53,103 +56,40 @@ and open the template in the editor.
                             <th>Descripción</th>
                             <th><abbr title="Precio unitario">PU</abbr></th>
                             <th><abbr title="Cantidad">Cant</abbr></th>
-                            <th>Subtotal</th>
                             <th>Comprar</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <th>1</th>
-                            <td><a href="https://en.wikipedia.org/wiki/Leicester_City_F.C." title="Leicester City F.C.">Leicester City</a> <strong>(C)</strong>
-                            </td>
-                            <td>38</td>
-                            <td>23</td>
-                            <td>12</td>
-                            <td>68</td>
-                            <td>
-                                <div class="buttons">
-                                    <button class="button is-primary  is-light">Agregar</button>
-                                </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th>2</th>
-                            <td><a href="https://en.wikipedia.org/wiki/Arsenal_F.C." title="Arsenal F.C.">Arsenal</a></td>
-                            <td>38</td>
-                            <td>20</td>
-                            <td>7</td>
-                            <td>65</td>
-                            <td>
-                                <div class="buttons">
-                                    <button class="button is-primary is-light">Agregar</button>
-                                </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th>3</th>
-                            <td><a href="https://en.wikipedia.org/wiki/Tottenham_Hotspur_F.C." title="Tottenham Hotspur F.C.">Tottenham Hotspur</a></td>
-                            <td>38</td>
-                            <td>19</td>
-                            <td>6</td>
-                            <td>69</td>
-                            <td>
-                                <div class="buttons">
-                                    <button class="button is-primary is-light">Agregar</button>
-                                </div>
-                            </td>
-                          </tr>
-                          <tr class="is-selected">
-                            <th>4</th>
-                            <td><a href="https://en.wikipedia.org/wiki/Manchester_City_F.C." title="Manchester City F.C.">Manchester City</a></td>
-                            <td>38</td>
-                            <td>19</td>
-                            <td>10</td>
-                            <td>71</td>
-                            <td>
-                                <div class="buttons">
-                                    <button class="button is-primary is-light">Agregar</button>
-                                </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th>5</th>
-                            <td><a href="https://en.wikipedia.org/wiki/Manchester_United_F.C." title="Manchester United F.C.">Manchester United</a></td>
-                            <td>38</td>
-                            <td>9</td>
-                            <td>10</td>
-                            <td>49</td>
-                            <td>
-                                <div class="buttons">
-                                    <button class="button is-primary is-light">Agregar</button>
-                                </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th>6</th>
-                            <td><a href="https://en.wikipedia.org/wiki/Southampton_F.C." title="Southampton F.C.">Southampton</a></td>
-                            <td>38</td>
-                            <td>9</td>
-                            <td>11</td>
-                            <td>59</td>
-                            <td>
-                                <div class="buttons">
-                                    <button class="button is-primary is-light">Agregar</button>
-                                </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th>6</th>
-                            <td><a href="https://en.wikipedia.org/wiki/Southampton_F.C." title="Southampton F.C.">Southampton</a></td>
-                            <td>38</td>
-                            <td>18</td>
-                            <td>9</td>
-                            <td>59</td>
-                            <td>
-                                <div class="buttons">
-                                    <button class="button is-primary is-light">Agregar</button>
-                                </div>
-                            </td>
-                          </tr>
+                          <%
+                            ProductoDAO pd = new ProductoDAO();
+                            ArrayList<Producto> productos = pd.obtenerProductos();
+
+                            for(Producto p: productos) {
+                         %>  
+                          <form method="ControladorPedido" method="post">
+                            <tr> <!-- <tr class="is-selected"> -->
+                              <th><%= p.getId() %></th>
+                              <td><%= p.getNombre() %></td>
+                              <td><%= p.getDescripcion() %> </td>
+                              <td><%= p.getPrecio() %></td>
+                              <td>
+                                  <input type="hidden" name="accion" value="1" /> 
+                                  <input type="hidden" name="idProducto" value="<%= p.getId() %>" /> 
+                                  <input type="number" class="input is-small" name="cantidad" value="0" /> 
+                              </td>
+                              <td>
+                                  <div class="buttons">
+                                    <input type="submit" class="button is-primary  is-light" value="Agregar" />
+                                  </div>
+                              </td>
+                            </tr>
+                          </form>
+                          <% } %>
+                          <% if (productos.isEmpty()) { %>
+                            <tr>
+                                <td colSpan="6">No hay productos disponibles</td>
+                            </tr>
+                          <% } %>
                         </tbody>
                       </table>
                 </div>
