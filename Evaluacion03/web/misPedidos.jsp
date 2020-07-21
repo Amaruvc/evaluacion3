@@ -18,12 +18,16 @@
         <nav class="navbar is-info" role="navigation" aria-label="main navigation">
             <div id="navbarBasicExample" class="navbar-menu">
               <div class="navbar-start">
-                <a  href="login.jsp" class="navbar-item ">
-                    Inicio sesión
+                <a href="login.jsp" class="navbar-item ">
+                    ADMIN
                 </a>
               </div>
               <div class="navbar-end">
+                <a class="navbar-item" href="index.jsp">
+                    REALIZAR PEDIDO
+                </a>
                 <div class="navbar-item">
+                    
                     <div class="field has-addons">
                         <div class="control">
                           <input class="input" type="text" placeholder="Correo electrónico">
@@ -38,5 +42,60 @@
               </div>
             </div>
         </nav>
+        <div class="container">
+            <h1 class="title">Mis pedidos</h1>
+            <div class="card">
+                <div class="card-content">
+                  <div class="content">
+                    <table class="table is-fullwidth">
+                        <thead>
+                          <tr>
+                            <th><abbr title="Código de producto">Cod</abbr></th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th><abbr title="Precio unitario">PU</abbr></th>
+                            <th><abbr title="Cantidad">Cant</abbr></th>
+                            <th>Subtotal</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th>1</th>
+                            <td>Leicester City
+                            </td>
+                            <td>38</td>
+                            <td>23</td>
+                            <td>12</td>
+                            <td>Qualification</td>
+                          </tr>
+                          <tr>
+                            <th>2</th>
+                            <td>Arsenal</td>
+                            <td>38</td>
+                            <td>20</td>
+                            <td>7</td>
+                            <td>Qualification </td>
+                          </tr>
+                          <tr>
+                            <th>3</th>
+                            <td>Tottenham Hotspur</td>
+                            <td>38</td>
+                            <td>19</td>
+                            <td>6</td>
+                            <td>Qualification</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <footer class="card-footer">
+                        <p class="card-footer-item">
+                            <span class="has-text-weight-bold">
+                            Total de la compra 
+                            </span>
+                        </p>
+                      </footer>
+                  </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
