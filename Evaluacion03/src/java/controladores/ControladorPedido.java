@@ -5,6 +5,7 @@
  */
 package controladores;
 
+import dao.EstadoDAO;
 import dao.PedidoDAO;
 import dao.ProductoDAO;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelos.Estado;
 import modelos.Pedido;
 import modelos.PedidoItem;
 import modelos.Producto;
@@ -51,6 +53,9 @@ public class ControladorPedido extends HttpServlet {
                     break;
                 case "4":
                     confirmarPedido(request, response);
+                    break;
+                case "5":
+                    cambiarEstadoPedido(request, response);
                     break;
             }
         } else {
@@ -154,6 +159,41 @@ public class ControladorPedido extends HttpServlet {
             response.sendRedirect("index.jsp?msj=Su pedido fue registrado correctamente");
         } catch (Exception e) {
             response.sendRedirect("index.jsp?msj=" + e.getMessage());
+        }
+    }
+    
+    private void cambiarEstadoPedido(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            int idPedido = Integer.parseInt(request.getParameter("idPedido"));
+            int idEstado = Integer.parseInt(request.getParameter("idEstado"));
+            
+            if (idPedido > 0 && idEstado > 0) {
+                EstadoDAO ed = new EstadoDAO();
+                Estado estado = ed.obtenerEstado(idEstado);
+                
+                if (estado != null) {
+                    PedidoDAO pd = new PedidoDAO();
+                    Pedido pedido = pd.obtenerPedido(idPedido);
+                    if (pedido != null) {
+                        pedido.setEstado(estado);
+                        
+                        int res = pd.modificarPedido(pedido);
+                        if (res == 1) {
+                            response.sendRedirect("intranet.jsp?msjPedido=Pedido modificado");
+                        } else {
+                            response.sendRedirect("intranet.jsp?msjPedido=Pedido no se pudo modificar");
+                        }
+                    } else {
+                        response.sendRedirect("intranet.jsp?msjPedido=El pedido no existe");
+                    }
+                } else {
+                    response.sendRedirect("intranet.jsp?msjPedido=El estado no existe");
+                }
+            } else {
+                response.sendRedirect("intranet.jsp?msjPedido=datos invalidos");
+            }
+        } catch (Exception e) {
+            response.sendRedirect("intranet.jsp?msjPedido=" + e.getMessage());
         }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

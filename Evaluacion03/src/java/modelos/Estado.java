@@ -37,6 +37,19 @@ public class Estado {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    
+    public String getColor() {
+        switch(id) {
+            case 1:
+                return "warning";
+            case 2:
+                return "primary";
+            case 3:
+                return "danger";
+            default:
+                return "warning";
+        }
+    }
 
     @Override
     public String toString() {

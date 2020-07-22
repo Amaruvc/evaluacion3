@@ -36,41 +36,56 @@
                     REALIZAR PEDIDO
                 </a>
                 <div class="navbar-item">
-                    
-                    <div class="field has-addons">
-                        <div class="control">
-                          <input class="input" type="text" placeholder="Correo electrónico">
+                    <form action="misPedidos.jsp" method="get">
+                        <div class="field has-addons">
+                            <div class="control">
+                              <input class="input" type="email" name="email" placeholder="Correo electrónico">
+                            </div>
+                            <div class="control">
+                              <button class="button is-primary">
+                                BUSCAR PEDIDOS
+                              </button>
+                            </div>
                         </div>
-                        <div class="control">
-                          <a class="button is-primary">
-                            BUSCAR PEDIDOS
-                          </a>
-                        </div>
-                    </div>
+                    </form>
                 </div>
               </div>
             </div>
         </nav>
         <div class="container">
-            <h1 class="title">Mis pedidos</h1>
+            <h1 class="title my-4">Mis pedidos</h1>
             <%
             for(Pedido p: misPedidos) {
             %>  
 
-            <div class="card">
-                    <div class="content">
-                        <table class="table is-fullwidth">
-                            <thead>
-                              <tr>
-                                <th><abbr title="Código de producto">Cod</abbr></th>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th><abbr title="Precio unitario">$</abbr></th>
-                                <th><abbr title="Cantidad">Cant</abbr></th>
-                                <th>Subtotal</th>
-                              </tr>
-                            </thead>
-                            <tbody>
+            <div class="card my-6">
+                <div class="content">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong class="mr-4">Nº Pedido:</strong>
+                                    <span><%= p.getId() %></span>
+                                </td>
+                                <td class="is-pulled-right has-text-<%= p.getEstado().getColor() %>-dark mr-6">
+                                    <strong class="mr-4 has-text-<%= p.getEstado().getColor() %>-dark">Estado:</strong>
+                                    <span><%= p.getEstado() %></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table is-fullwidth">
+                        <thead>
+                          <tr>
+                            <th><abbr title="Código de producto">Cod</abbr></th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th><abbr title="Precio unitario">$</abbr></th>
+                            <th><abbr title="Cantidad">Cant</abbr></th>
+                            <th>Subtotal</th>
+                          </tr>
+                        </thead>
+                        <tbody>
 
                         <%
                         for(PedidoItem pi: p.getItems()) {
@@ -86,10 +101,8 @@
                         </tr>
                         <%} %>
                         <tr>
-                            <td><strong>Estado</strong></td>
-                            <td>
-                                <%= p.getEstado() %>
-                            </td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td><strong>TOTAL:</strong></td>
@@ -97,18 +110,16 @@
                                 <%= p.calcularTotal() %>
                             </strong></td>
                         </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
             <% } %>
             <% if (misPedidos.isEmpty()) { %>
               <tr>
                   <td colSpan="6">No hay pedidos registrados con el correo electrónico </td>
               </tr>
             <% } %>
-            </div>
-                
-                
         </div>
     </body>
 </html>

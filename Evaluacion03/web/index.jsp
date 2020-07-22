@@ -50,7 +50,7 @@ and open the template in the editor.
         <div class="container">  
             <div class="columns">
                 <div class="column is-three-quarters">
-                    <h1 class="title">Productos</h1>
+                    <h1 class="title my-4">Productos</h1>
                     <table class="table is-fullwidth">
                         <thead>
                           <tr>
