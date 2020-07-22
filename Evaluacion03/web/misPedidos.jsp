@@ -4,6 +4,10 @@
     Author     : amaru
 --%>
 
+<%@page import="modelos.PedidoItem"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="modelos.Pedido"%>
+<%@page import="dao.PedidoDAO"%>
 <%@page contentType="text/html" pageEncoding="windows-1252"%>
 <!DOCTYPE html>
 <html>
@@ -15,6 +19,11 @@
         <title>Mis Pedidos</title>
     </head>
     <body>
+        <%
+            String email = request.getParameter("email");
+            PedidoDAO pd = new PedidoDAO();
+            ArrayList<Pedido> misPedidos = pd.obtenerPedidos(email);
+        %>
         <nav class="navbar is-info" role="navigation" aria-label="main navigation">
             <div id="navbarBasicExample" class="navbar-menu">
               <div class="navbar-start">
@@ -44,58 +53,62 @@
         </nav>
         <div class="container">
             <h1 class="title">Mis pedidos</h1>
+            <%
+            for(Pedido p: misPedidos) {
+            %>  
+
             <div class="card">
-                <div class="card-content">
-                  <div class="content">
-                    <table class="table is-fullwidth">
-                        <thead>
-                          <tr>
-                            <th><abbr title="Código de producto">Cod</abbr></th>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th><abbr title="Precio unitario">PU</abbr></th>
-                            <th><abbr title="Cantidad">Cant</abbr></th>
-                            <th>Subtotal</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th>1</th>
-                            <td>Leicester City
+                    <div class="content">
+                        <table class="table is-fullwidth">
+                            <thead>
+                              <tr>
+                                <th><abbr title="Código de producto">Cod</abbr></th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th><abbr title="Precio unitario">$</abbr></th>
+                                <th><abbr title="Cantidad">Cant</abbr></th>
+                                <th>Subtotal</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+
+                        <%
+                        for(PedidoItem pi: p.getItems()) {
+                        %>  
+
+                        <tr>
+                          <td><%= pi.getProducto().getId() %></td>
+                          <td><%= pi.getProducto().getNombre() %></td>
+                          <td><%= pi.getProducto().getDescripcion() %> </td>
+                          <td><%= pi.getPrecioUnitario() %></td>
+                          <td><%= pi.getCantidad() %></td>
+                          <td><%= pi.calcularSubtotal() %></td>
+                        </tr>
+                        <%} %>
+                        <tr>
+                            <td><strong>Estado</strong></td>
+                            <td>
+                                <%= p.getEstado() %>
                             </td>
-                            <td>38</td>
-                            <td>23</td>
-                            <td>12</td>
-                            <td>Qualification</td>
-                          </tr>
-                          <tr>
-                            <th>2</th>
-                            <td>Arsenal</td>
-                            <td>38</td>
-                            <td>20</td>
-                            <td>7</td>
-                            <td>Qualification </td>
-                          </tr>
-                          <tr>
-                            <th>3</th>
-                            <td>Tottenham Hotspur</td>
-                            <td>38</td>
-                            <td>19</td>
-                            <td>6</td>
-                            <td>Qualification</td>
-                          </tr>
+                            <td></td>
+                            <td></td>
+                            <td><strong>TOTAL:</strong></td>
+                            <td colspan="2"><strong>
+                                <%= p.calcularTotal() %>
+                            </strong></td>
+                        </tr>
                         </tbody>
                       </table>
-                      <footer class="card-footer">
-                        <p class="card-footer-item">
-                            <span class="has-text-weight-bold">
-                            Total de la compra 
-                            </span>
-                        </p>
-                      </footer>
-                  </div>
-                </div>
+                    </div>
+            <% } %>
+            <% if (misPedidos.isEmpty()) { %>
+              <tr>
+                  <td colSpan="6">No hay pedidos registrados con el correo electrónico </td>
+              </tr>
+            <% } %>
             </div>
+                
+                
         </div>
     </body>
 </html>

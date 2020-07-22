@@ -34,6 +34,12 @@ public class Conexion {
             conexion.close();
         }
     }
+    
+    public Connection obtenerConexion() throws SQLException, ClassNotFoundException {
+        Class.forName(driver);
+        return DriverManager.getConnection(url+bd,usuario,password);
+    }
+    
     //este metodo obtiene un statemet a partir de la conexion
     //el statement permite ejecutar sentencias en la base de datos
     public Statement obtenerStatement() throws SQLException{

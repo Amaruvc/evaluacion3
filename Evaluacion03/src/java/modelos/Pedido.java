@@ -22,17 +22,17 @@ public class Pedido {
         items = new ArrayList();
     }
 
-    public Pedido(int id, String email, Estado estado, ArrayList<PedidoItem> items) {
+    public Pedido(int id, String email, Estado estado) {
         this.id = id;
         this.email = email;
         this.estado = estado;
-        this.items = items;
+        this.items = new ArrayList();
     }
 
-    public Pedido(String email, Estado estado, ArrayList<PedidoItem> items) {
+    public Pedido(String email, Estado estado) {
         this.email = email;
         this.estado = estado;
-        this.items = items;
+        this.items = new ArrayList();
     }
 
     public int getId() {

@@ -1,3 +1,5 @@
+<%@page import="modelos.PedidoItem"%>
+<%@page import="modelos.Pedido"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="modelos.Producto"%>
 <%@page import="dao.ProductoDAO"%>
@@ -28,17 +30,18 @@ and open the template in the editor.
                     REALIZAR PEDIDO
                 </a>
                 <div class="navbar-item">
-                    
-                    <div class="field has-addons">
-                        <div class="control">
-                          <input class="input" type="text" placeholder="Correo electrónico">
+                    <form action="misPedidos.jsp" method="get">
+                        <div class="field has-addons">
+                            <div class="control">
+                              <input class="input" type="email" name="email" placeholder="Correo electrónico">
+                            </div>
+                            <div class="control">
+                              <button class="button is-primary">
+                                BUSCAR PEDIDOS
+                              </button>
+                            </div>
                         </div>
-                        <div class="control">
-                          <a class="button is-primary">
-                            BUSCAR PEDIDOS
-                          </a>
-                        </div>
-                    </div>
+                    </form>
                 </div>
               </div>
             </div>
@@ -54,7 +57,7 @@ and open the template in the editor.
                             <th><abbr title="Código de producto">Cod</abbr></th>
                             <th>Nombre</th>
                             <th>Descripción</th>
-                            <th><abbr title="Precio unitario">PU</abbr></th>
+                            <th><abbr title="Precio unitario">$</abbr></th>
                             <th><abbr title="Cantidad">Cant</abbr></th>
                             <th>Comprar</th>
                           </tr>
@@ -66,9 +69,9 @@ and open the template in the editor.
 
                             for(Producto p: productos) {
                          %>  
-                          <form method="ControladorPedido" method="post">
-                            <tr> <!-- <tr class="is-selected"> -->
-                              <th><%= p.getId() %></th>
+                          <form action="ControladorPedido" method="post">
+                            <tr>
+                              <td><%= p.getId() %></td>
                               <td><%= p.getNombre() %></td>
                               <td><%= p.getDescripcion() %> </td>
                               <td><%= p.getPrecio() %></td>
@@ -96,9 +99,70 @@ and open the template in the editor.
                 <div class="column">
                     <div class="notification is-primary is-light">
                         <h2 class="subtitle">Carro de compras</h2>
+                        <table class="table full-width">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Sub Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                Pedido pedido = (Pedido)session.getAttribute("pedido");
+                                if (pedido != null) {
+                                    for(PedidoItem item: pedido.getItems()) {
+                            %>
+                                        <tr>
+                                            <td><%= item.getProducto() %></td>
+                                            <td><%= item.getCantidad() %></td>
+                                            <td><%= item.calcularSubtotal() %></td>
+                                            <td>
+                                                <form action="ControladorPedido" method="post">
+                                                    <input type="hidden" name="accion" value="3" />
+                                                    <input type="hidden" name="idProducto" value="<%= item.getProducto().getId() %>" />
+                                                    <button class="delete"></button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                            <% } %>
+                            <tr>
+                                <td><strong>TOTAL:</strong></td>
+                                <td colspan="2">
+                                    <%= pedido.calcularTotal() %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <form action="ControladorPedido" method="post">
+                                        <input type="hidden" name="accion" value="4" />
+                                        <div class="field">
+                                            <div class="control">
+                                              <input class="input is-primary" type="email" name="email" placeholder="Correo electrónico">
+                                            </div>
+                                          </div>
+                                        <input class="button is-primary" type="submit" value="Confirmar" />
+                                    </form>
+                                </td>
+                            </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                        <form action="ControladorPedido" method="post" class="is-clearfix">
+                            <input type="hidden" name="accion" value="2" />
+                            <input class="button is-white has-text-primary is-pulled-right" type="submit" value="Vaciar" />
+                        </form>
+ 
                     </div>   
                 </div>
               </div>
+                            
+            <% if(request.getParameter("msj")!= null){%>
+                <div class="notification is-warning is-light">
+                    <%= request.getParameter("msj") %>
+                </div>
+                <h4></h4>
+            <%}%>
         </div>
     </body>
 </html>

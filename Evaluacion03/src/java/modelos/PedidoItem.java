@@ -19,6 +19,13 @@ public class PedidoItem {
     public PedidoItem() {
     }
 
+    public PedidoItem(Pedido pedido, Producto producto, int cantidad) {
+        this.pedido = pedido;
+        this.producto = producto;
+        this.cantidad = cantidad;
+        this.precioUnitario = producto.getPrecio();
+    }
+    
     public PedidoItem(Pedido pedido, Producto producto, int cantidad, int precioUnitario) {
         this.pedido = pedido;
         this.producto = producto;
