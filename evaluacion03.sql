@@ -8,7 +8,7 @@ CREATE TABLE `estado` (
   `idestado` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`idestado`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `producto` (
   `idproducto` int(11) NOT NULL AUTO_INCREMENT,
